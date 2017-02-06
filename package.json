@@ -1,9 +1,12 @@
 {
   "name": "react-odata",
   "version": "0.1.1",
-  "main": "dist/OData.js",
   "author": "Sean Lynch <techniq35@gmail.com>",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/OData.js",
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-jest": "^18.0.0",
