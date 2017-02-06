@@ -4,8 +4,6 @@ React component to declaratively fetch data
 
 ## Examples
 
- select, filter, groupBy, orderBy, top, skip, count, expand
-
 ### Basic
 ```js
 <OData baseUrl="someUrl">
@@ -25,7 +23,3 @@ React component to declaratively fetch data
 ```js
 <OData baseUrl="someUrl" options={{ credentials: 'include' }} />
 ```
-
-## TODO
-- Tests
-- More examples
