@@ -56,18 +56,20 @@ export function buildQueryString({ select, filter, groupBy, orderBy, top, skip, 
   }
 }
 
-function buildFilter(filter = {}) {
-  if (typeof(filter) === 'string') {
-    return filter;
-  } else {
-    const filters = Object.keys(filter).reduce((result, filterKey) => {
+function buildFilter(filters = {}) {
+  if (typeof(filters) === 'string') {
+    return filters;
+  } else if (Array.isArray(filters)) {
+    return filters.map(f => buildFilter(f)).join(' and ');
+  } else if (typeof(filters) === 'object') {
+    const filtersArray = Object.keys(filters).reduce((result, filterKey) => {
       // TODO: Smartly build filter based on object (determine query syntax to pass)
       // return '(Tasks/any(t:((t/AssignedGroupId eq 109343))))'
-      if (filterKey === 'Tasks' && Object.keys(filter.Tasks).length) {
-        const tasksFilter = Object.keys(filter.Tasks).map(key => `(t/${key} eq ${filter.Tasks[key]})`).join(' and ')
+      if (filterKey === 'Tasks' && Object.keys(filters.Tasks).length) {
+        const tasksFilter = Object.keys(filters.Tasks).map(key => `(t/${key} eq ${filters.Tasks[key]})`).join(' and ')
         result.push(`Tasks/any(t:(${tasksFilter}))`);
       } else {
-        const value = filter[filterKey];
+        const value = filters[filterKey];
         if (value instanceof Object) {
           const operators = Object.keys(value);
           operators.forEach(op => {
@@ -81,6 +83,8 @@ function buildFilter(filter = {}) {
       return result;
     }, [])
 
-    return filters.join(' and ');
+    return filtersArray.join(' and ');
+  } else {
+    throw new Error(`Unexpected filters type: "${typeof(filters)}"`)
   }
 }

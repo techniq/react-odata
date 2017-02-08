@@ -25,6 +25,13 @@ describe('filter', () => {
     const actual = buildQueryString({ filter });
     expect(actual).toEqual(expected);
   });
+
+  it('should allow passing filter as an array of objects and strings', () => {
+    const filter = [{ SomeProp: 1 }, { AnotherProp: 2 }, 'startswith(Name, "foo")'];
+    const expected = '$filter=SomeProp eq 1 and AnotherProp eq 2 and startswith(Name, "foo")'
+    const actual = buildQueryString({ filter });
+    expect(actual).toEqual(expected);
+  });
 })
 
 describe('groupBy', () => {
