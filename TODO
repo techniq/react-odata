@@ -3,3 +3,4 @@
 - Use PropTypes and/or Flow
 - Should <OData /> take a single `query` props instead of individual?
 - More examples (show using select, filter, groupBy, orderBy, top, skip, count, expand props)
+- Support `filters` and `filter`

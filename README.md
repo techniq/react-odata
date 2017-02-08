@@ -1,6 +1,6 @@
 # react-odata
 
-React component to declaratively fetch data
+React component to declaratively fetch from OData endpoints
 
 ## Examples
 
