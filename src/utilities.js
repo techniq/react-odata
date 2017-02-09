@@ -70,7 +70,9 @@ function buildFilter(filters = {}) {
         result.push(`Tasks/any(t:(${tasksFilter}))`);
       } else {
         const value = filters[filterKey];
-        if (value instanceof Object) {
+        if (Array.isArray(value)) {
+          result.push(`(${value.map(buildFilter).join(` ${filterKey} `)})`)
+        } else if (value instanceof Object) {
           const operators = Object.keys(value);
           operators.forEach(op => {
             result.push(`${filterKey} ${op} ${value[op]}`) 
