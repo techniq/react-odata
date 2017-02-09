@@ -2,6 +2,13 @@
 
 React component to declaratively fetch from OData endpoints
 
+## Install
+
+yarn add react-odata
+or
+
+npm install --save react-odata
+
 ## Examples
 
 ### Basic
