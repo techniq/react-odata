@@ -1,6 +1,6 @@
 # react-odata
 
-React component to declaratively fetch from OData endpoints
+React component to declaratively fetch from OData V4 endpoints
 
 ## Install
 
@@ -26,7 +26,7 @@ npm install --save react-odata
 </Fetch>
 ``` 
 
-### Passes remaining parameters to underlying <Fetch /> component
+### Passes remaining parameters to underlying [<Fetch />](https://github.com/techniq/react-fetch-component) component
 ```js
 <OData baseUrl="someUrl" options={{ credentials: 'include' }} />
 ```
