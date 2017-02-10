@@ -111,6 +111,24 @@ describe('filter', () => {
   })
 })
 
+  describe('collection operators', () => {
+    it('should handle simple collection operators (all, any)', () => {
+      const filter = {
+        Tasks: {
+          any: [
+            {
+              AssignedGroupId: 1234,
+              StatusId: 300
+            }
+          ]
+        }
+      }
+      const expected = "$filter=Tasks/any(t:(t/AssignedGroupId eq 1234 and t/StatusId eq 300))"
+      const actual = buildQueryString({ filter });
+      expect(actual).toEqual(expected);
+    });
+  });
+
 describe('groupBy', () => {
   it('should allow passing since property as string', () => {
     const groupBy = 'SomeProp';

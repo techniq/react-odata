@@ -1,4 +1,6 @@
-const OPERATORS = ['eq', 'ne', 'gt', 'ge', 'lt', 'le', 'and', 'or', 'not'];
+const COMPARISON_OPERATORS = ['eq', 'ne', 'gt', 'ge', 'lt', 'le'];
+const LOGICAL_OPERATORS = ['and', 'or', 'not'];
+const COLLECTION_OPERATORS = ['any', 'all'];
 
 export function buildQueryString({ select, filter, groupBy, orderBy, top, skip, count, expand } = {}) {
   const builtFilter = buildFilter(filter)
@@ -58,38 +60,36 @@ export function buildQueryString({ select, filter, groupBy, orderBy, top, skip, 
   }
 }
 
-function buildFilter(filters = {}) {
+function buildFilter(filters = {}, propPrefix = '') {
   if (typeof(filters) === 'string') {
     return filters;
   } else if (Array.isArray(filters)) {
-    return filters.map(f => buildFilter(f)).join(' and ');
+    return filters.map(f => buildFilter(f, propPrefix)).join(' and ');
   } else if (typeof(filters) === 'object') {
     const filtersArray = Object.keys(filters).reduce((result, filterKey) => {
-      // TODO: Smartly build filter based on object (determine query syntax to pass)
-      // return '(Tasks/any(t:((t/AssignedGroupId eq 109343))))'
-      if (filterKey === 'Tasks' && Object.keys(filters.Tasks).length) {
-        const tasksFilter = Object.keys(filters.Tasks).map(key => `(t/${key} eq ${filters.Tasks[key]})`).join(' and ')
-        result.push(`Tasks/any(t:(${tasksFilter}))`);
+      const value = filters[filterKey];
+      const propName = propPrefix ? `${propPrefix}/${filterKey}` : filterKey;
+
+      if (Array.isArray(value)) {
+        result.push(`(${value.map(v => buildFilter(v, propPrefix)).join(` ${filterKey} `)})`)
+      } else if (typeof(value) === "number" || typeof(value) === "string" || value instanceof Date) {
+        // Simple key/value handled as equals operator
+        result.push(`${propName} eq ${handleValue(value)}`) 
+      } else if (value instanceof Object) {
+        const operators = Object.keys(value);
+        operators.forEach(op => {
+          if ([...COMPARISON_OPERATORS, ...LOGICAL_OPERATORS].includes(op)) {
+            result.push(`${propName} ${op} ${handleValue(value[op])}`) 
+          } else if (COLLECTION_OPERATORS.includes(op)) {
+            const lambaParameter = propName[0].toLowerCase();
+            result.push(`${propName}/${op}(${lambaParameter}:${buildFilter(value, lambaParameter)})`) 
+          } else {
+            // single boolean function
+            result.push(`${op}(${propName}, ${handleValue(value[op])})`) 
+          }
+        })
       } else {
-        const value = filters[filterKey];
-        if (Array.isArray(value)) {
-          result.push(`(${value.map(buildFilter).join(` ${filterKey} `)})`)
-        } else if (typeof(value) === "number" || typeof(value) === "string" || value instanceof Date) {
-          // Simple key/value handled as equals operators
-          result.push(`${filterKey} eq ${handleValue(value)}`) 
-        } else if (value instanceof Object) {
-          const operators = Object.keys(value);
-          operators.forEach(op => {
-            if (OPERATORS.includes(op)) {
-              result.push(`${filterKey} ${op} ${handleValue(value[op])}`) 
-            } else {
-              // single boolean function
-              result.push(`${op}(${filterKey}, ${handleValue(value[op])})`) 
-            }
-          })
-        } else {
-          throw new Error(`Unexpected value: ${value}`)
-        }
+        throw new Error(`Unexpected value type: ${value}`)
       }
 
       return result;
@@ -97,7 +97,7 @@ function buildFilter(filters = {}) {
 
     return filtersArray.join(' and ');
   } else {
-    throw new Error(`Unexpected filters type: ${typeof(filters)}`)
+    throw new Error(`Unexpected filters type: ${filters}`)
   }
 }
 
