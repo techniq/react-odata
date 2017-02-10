@@ -1,3 +1,5 @@
+const OPERATORS = ['eq', 'ne', 'gt', 'ge', 'lt', 'le', 'and', 'or', 'not'];
+
 export function buildQueryString({ select, filter, groupBy, orderBy, top, skip, count, expand } = {}) {
   const builtFilter = buildFilter(filter)
 
@@ -72,13 +74,21 @@ function buildFilter(filters = {}) {
         const value = filters[filterKey];
         if (Array.isArray(value)) {
           result.push(`(${value.map(buildFilter).join(` ${filterKey} `)})`)
+        } else if (typeof(value) === "number" || typeof(value) === "string" || value instanceof Date) {
+          // Simple key/value handled as equals operators
+          result.push(`${filterKey} eq ${handleValue(value)}`) 
         } else if (value instanceof Object) {
           const operators = Object.keys(value);
           operators.forEach(op => {
-            result.push(`${filterKey} ${op} ${value[op]}`) 
+            if (OPERATORS.includes(op)) {
+              result.push(`${filterKey} ${op} ${handleValue(value[op])}`) 
+            } else {
+              // single boolean function
+              result.push(`${op}(${filterKey}, ${handleValue(value[op])})`) 
+            }
           })
         } else {
-          result.push(`${filterKey} eq ${value}`) 
+          throw new Error(`Unexpected value: ${value}`)
         }
       }
 
@@ -87,6 +97,18 @@ function buildFilter(filters = {}) {
 
     return filtersArray.join(' and ');
   } else {
-    throw new Error(`Unexpected filters type: "${typeof(filters)}"`)
+    throw new Error(`Unexpected filters type: ${typeof(filters)}`)
+  }
+}
+
+function handleValue(value) {
+  if (typeof(value) === 'string') {
+    return `'${value}'`
+  } else if (value instanceof Date) {
+    const isoString = value.toISOString();
+    return isoString.split('.')[0] + "Z"; // strip microseconds
+  } else {
+    // TODO: Figure out how best to specify types.  See: https://github.com/devnixs/ODataAngularResources/blob/master/src/odatavalue.js
+    return value
   }
 }
