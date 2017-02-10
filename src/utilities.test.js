@@ -108,6 +108,13 @@ describe('filter', () => {
       const actual = buildQueryString({ filter });
       expect(actual).toEqual(expected);
     });
+
+    it('should convert "in" operator to "or" statement', () => {
+      const filter = { SomeProp: {'in': [1, 2, 3] } };
+      const expected = '$filter=SomeProp eq 1 or SomeProp eq 2 or SomeProp eq 3'
+      const actual = buildQueryString({ filter });
+      expect(actual).toEqual(expected);
+    });
   })
 })
 
