@@ -58,11 +58,26 @@ describe('filter', () => {
 
   describe('functions', () => {
     it('should allow passing boolean functions as operators', () => {
-      const filter = { Name: {'contains': 'foo'} }
+      const filter = { Name: { contains: 'foo'} }
       const expected = "$filter=contains(Name, 'foo')"
       const actual = buildQueryString({ filter });
       expect(actual).toEqual(expected);
     });
+
+    it('should allow functions as part of the property name', () => {
+      const filter = { 'length(Name)': { gt: 10 } }
+      const expected = "$filter=length(Name) gt 10"
+      const actual = buildQueryString({ filter });
+      expect(actual).toEqual(expected);
+    });
+
+    it('should allow functions with multiple parameters as part of the property name', () => {
+      const filter = { "indexof(Name, 'foo')": { eq: 3 } }
+      const expected = "$filter=indexof(Name, 'foo') eq 3"
+      const actual = buildQueryString({ filter });
+      expect(actual).toEqual(expected);
+    });
+
   });
 
   describe('logical operators', () => {
