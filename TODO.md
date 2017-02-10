@@ -15,6 +15,7 @@
 - License (including on README)
 - How to deploy (`npm install -g np; np --no-check`)
 - Examples for all props (select, filter, groupBy, orderBy, top, skip, count, expand, ...)
+- Example using [odata-filter-builder](https://github.com/bodia-uz/odata-filter-builder) project and passing filter={} as it's string output
 - Syntax inspiration
   - [Mongo DB](https://docs.mongodb.com/manual/reference/operator/query/)
   - [js-data](http://www.js-data.io/v3.0/docs/query-syntax)
