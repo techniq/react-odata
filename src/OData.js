@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Fetch from 'react-fetch-component';
-import { buildQueryString } from './utilities';
+import buildQuery from 'odata-query';
 
 class OData extends Component {
   render() {
-    const { baseUrl, ...rest } = this.props;
-    const queryString = buildQueryString(this.props);
+    const { baseUrl, query, ...rest } = this.props;
+    const queryString = buildQuery(query);
 
     return (
       <Fetch url={`${baseUrl}?${queryString}`} {...rest} />
