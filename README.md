@@ -1,6 +1,6 @@
 # react-odata
 
-React component to declaratively fetch from OData V4 endpoints
+React component to declaratively fetch from OData v4 endpoints
 
 ## Install
 ```
@@ -15,14 +15,15 @@ npm install --save react-odata
 
 ### Basic
 ```js
-<OData baseUrl="http://services.odata.org/V4/TripPinService/People/" query={{ filter: { FirstName: 'Russell' } }}>
-  { ({ loading, data, error }) => (
+const baseUrl = 'http://services.odata.org/V4/TripPinService/People";
+const query = { filter: { FirstName: 'Russell' } };
+
+<OData baseUrl={baseUrl} query={query}>
+  { ({ loading, error, data }) => (
     <div>
-      { loading && "Loading..." }
-      { error && error.toString()} }
-      { data && (
-        {/* handle data here */}
-      )}
+      { loading && {/* handle loading here */} }
+      { error && {/* handle error here */} }
+      { data && {/* handle data here */}}
     </div>
   )}
 </OData>
