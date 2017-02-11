@@ -11,7 +11,11 @@ or
 npm install --save react-odata
 ```
 
-## Examples
+## Usage
+### Import
+```js
+import OData from 'react-odata';
+```
 
 ### Basic
 ```js
