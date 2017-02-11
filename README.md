@@ -15,7 +15,7 @@ npm install --save react-odata
 
 ### Basic
 ```js
-const baseUrl = 'http://services.odata.org/V4/TripPinService/People";
+const baseUrl = 'http://services.odata.org/V4/TripPinService/People';
 const query = { filter: { FirstName: 'Russell' } };
 
 <OData baseUrl={baseUrl} query={query}>
