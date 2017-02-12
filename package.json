@@ -18,7 +18,7 @@
     "rimraf": "^2.5.4"
   },
   "dependencies": {
-    "odata-query": "^0.1.1",
+    "odata-query": "^0.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-fetch-component": "^0.3.0"
