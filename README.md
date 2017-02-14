@@ -32,7 +32,7 @@ const query = { filter: { FirstName: 'Russell' } };
   )}
 </OData>
 ``` 
-- See [odata-filter](https://github.com/techniq/odata-filter) for supported `query` syntax
+- See [odata-query](https://github.com/techniq/odata-query) for supported `query` syntax
 
 ### Passes remaining props to underlying `<Fetch />` component
 ```js
