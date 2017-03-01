@@ -8,7 +8,7 @@ class OData extends Component {
     const queryString = buildQuery(query);
 
     return (
-      <Fetch url={`${baseUrl}?${queryString}`} {...rest} />
+      <Fetch url={baseUrl + queryString} {...rest} />
     )
   }
 }
