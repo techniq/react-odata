@@ -5,11 +5,9 @@ import buildQuery from 'odata-query';
 class OData extends Component {
   render() {
     const { baseUrl, query, ...rest } = this.props;
-    const queryString = buildQuery(query);
+    const url = (query !== false) && baseUrl + buildQuery(query)
 
-    return (
-      <Fetch url={baseUrl + queryString} {...rest} />
-    )
+    return <Fetch url={url} {...rest} />
   }
 }
 
