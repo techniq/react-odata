@@ -11,4 +11,5 @@ class OData extends Component {
   }
 }
 
+export { buildQuery };
 export default OData;
