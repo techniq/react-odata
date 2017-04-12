@@ -2385,9 +2385,9 @@ object.values@^1.0.3:
     function-bind "^1.1.0"
     has "^1.0.1"
 
-odata-query@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-3.0.0.tgz#240ee3afb3cc854dd5c17669eea5cf50b96da5e2"
+odata-query@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-3.3.0.tgz#5b3e273d7be2cc1e528b0ced77ebec38b2cbc3d1"
 
 once@^1.3.0, once@^1.4.0:
   version "1.4.0"
@@ -2587,9 +2587,9 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-fetch-component@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-2.2.0.tgz#8fdb477827c161e736ed4cf02b12e94178440cc4"
+react-fetch-component@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-2.3.0.tgz#d48f11cae0da44bd7e9fb709a370d2a7e951cde2"
   dependencies:
     react "^15.4.2"
     react-dom "^15.4.2"
