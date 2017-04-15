@@ -2587,9 +2587,9 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-fetch-component@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-2.3.0.tgz#d48f11cae0da44bd7e9fb709a370d2a7e951cde2"
+react-fetch-component@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-2.4.0.tgz#4587308c6f17cead51b3dadb4b6fcdbdec40b804"
   dependencies:
     react "^15.4.2"
     react-dom "^15.4.2"
