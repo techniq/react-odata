@@ -9,11 +9,11 @@
   ],
   "main": "dist/OData.js",
   "devDependencies": {
-    "babel-cli": "^6.23.0",
+    "babel-cli": "^6.24.1",
     "babel-jest": "^19.0.0",
     "babel-preset-react-app": "^2.2.0",
-    "enzyme": "^2.7.1",
-    "fetch-mock": "^5.9.4",
+    "enzyme": "^2.8.2",
+    "fetch-mock": "^5.10.0",
     "jest": "^19.0.2",
     "react-addons-test-utils": "^15.4.2",
     "rimraf": "^2.6.1"
