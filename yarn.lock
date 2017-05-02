@@ -2386,9 +2386,9 @@ object.values@^1.0.3:
     function-bind "^1.1.0"
     has "^1.0.1"
 
-odata-query@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-3.3.0.tgz#5b3e273d7be2cc1e528b0ced77ebec38b2cbc3d1"
+odata-query@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-3.3.1.tgz#f9206d1d482324fd7bfc9e0a2de9f3764c61b4e8"
 
 once@^1.3.0, once@^1.4.0:
   version "1.4.0"
