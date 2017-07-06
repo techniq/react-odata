@@ -2366,8 +2366,8 @@ object.values@^1.0.4:
     has "^1.0.1"
 
 odata-query@next:
-  version "4.0.0-0"
-  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-4.0.0-0.tgz#d02ad6624cd2ffd4609fb2d28590a239ca56402c"
+  version "4.0.0-1"
+  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-4.0.0-1.tgz#1f5703e83e36895af504950fe5be407b32ed1c63"
 
 once@^1.3.0, once@^1.4.0:
   version "1.4.0"
