@@ -2579,9 +2579,9 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-react-fetch-component@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-2.6.0.tgz#78016979c7a2218f325a29506e7c2014b4053ae1"
+react-fetch-component@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-3.0.0.tgz#c929fe96076266771dce2364407193e3d09662ee"
   dependencies:
     babel-plugin-transform-class-properties "^6.24.1"
     babel-plugin-transform-object-rest-spread "^6.23.0"

@@ -24,7 +24,7 @@
     "odata-query": "^4.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-fetch-component": "^2.6.0"
+    "react-fetch-component": "^3.0.0"
   },
   "scripts": {
     "test": "jest",

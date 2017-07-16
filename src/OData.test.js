@@ -16,7 +16,7 @@ it('fetches all if query is not not', async () => {
   const wrapper = mount(<OData baseUrl="http://localhost">{mockHandler}</OData>);
   const fetchComponent = wrapper.find('Fetch').getNode();
 
-  await fetchComponent.promise;
+  await Promise.all(fetchComponent.promises);
 
   expect(mockHandler.mock.calls.length).toBe(3);
 
@@ -42,7 +42,7 @@ it('does not fetch if query is false', async () => {
   const wrapper = mount(<OData baseUrl="http://localhost" query={false}>{mockHandler}</OData>);
   const fetchComponent = wrapper.find('Fetch').getNode();
 
-  expect(fetchComponent.promise).toBe(undefined);
+  expect(fetchComponent.promises).toEqual([]);
 
   expect(mockHandler.mock.calls.length).toBe(1);
 
