@@ -24,5 +24,5 @@ class OData extends Component {
   }
 }
 
-export { buildQuery };
+export { buildQuery, renderChildren };
 export default OData;
