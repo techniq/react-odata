@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
-import Fetch from 'react-fetch-component';
+import Fetch, { renderChildren } from 'react-fetch-component';
 import buildQuery from 'odata-query';
+
+function buildUrl (baseUrl, query) {
+  return (query !== false) && baseUrl + buildQuery(query)
+}
 
 class OData extends Component {
   render() {
-    const { baseUrl, query, ...rest } = this.props;
-    const url = (query !== false) && baseUrl + buildQuery(query)
+    const { baseUrl, query, children, ...rest } = this.props;
+    const url = buildUrl(baseUrl, query)
 
-    return <Fetch url={url} {...rest} />
+    return (
+      <Fetch url={url} {...rest}>
+        {({ fetch, ...props }) => {
+          return renderChildren(children, {
+            ...props,
+            fetch: (query, options) => fetch(buildUrl(baseUrl, query), options)
+          })
+        }}
+      </Fetch>
+    )
   }
 }
 
