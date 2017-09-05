@@ -16,7 +16,7 @@ class OData extends Component {
         {({ fetch, ...props }) => {
           return renderChildren(children, {
             ...props,
-            fetch: (query, options) => fetch(buildUrl(baseUrl, query), options)
+            fetch: (query, options) => fetch(buildUrl(baseUrl, query || this.props.query), options || this.props.options)
           })
         }}
       </Fetch>
