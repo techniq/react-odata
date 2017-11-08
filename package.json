@@ -21,10 +21,12 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "odata-query": "^4.0.0",
+    "odata-query": "^4.0.0"
+  },
+  "peerDependencies": {
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-fetch-component": "^4.0.0"
+    "react-fetch-component": "^5.0.0"
   },
   "scripts": {
     "test": "jest",
