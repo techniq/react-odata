@@ -20,10 +20,8 @@
     "react-addons-test-utils": "^15.4.2",
     "rimraf": "^2.6.1"
   },
-  "dependencies": {
-    "odata-query": "^4.0.0"
-  },
   "peerDependencies": {
+    "odata-query": "^5.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-fetch-component": "^5.0.0"
