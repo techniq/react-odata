@@ -3436,9 +3436,9 @@ react-dom@^16.3.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-fetch-component@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-5.4.1.tgz#93fadf5140ecd2b1f8a3b87ae5c7462ddbcff4d7"
+react-fetch-component@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-fetch-component/-/react-fetch-component-6.0.0.tgz#e1830efccea46b86bc6a7cb975accbf798ba2a3d"
 
 react-testing-library@^2.3.0:
   version "2.3.0"
