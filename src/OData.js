@@ -8,23 +8,17 @@ function buildUrl(baseUrl, query) {
 
 class OData extends Component {
   render() {
-    const { baseUrl, query, children, ...rest } = this.props;
-    const url = buildUrl(baseUrl, query);
+    const { baseUrl, query = {}, ...rest } = this.props;
 
     return (
-      <Fetch url={url} {...rest}>
-        {({ fetch, ...props }) => {
-          return renderChildren(children, {
-            ...props,
-            fetch: (query, options, updateOptions) =>
-              fetch(
-                buildUrl(baseUrl, query || this.props.query),
-                options || this.props.options,
-                updateOptions
-              )
-          });
+      <Fetch
+        url={query}
+        fetchFunction={(query, options, updateOptions) => {
+          const url = buildUrl(baseUrl, query);
+          return fetch(url, options, updateOptions);
         }}
-      </Fetch>
+        {...rest}
+      />
     );
   }
 }
