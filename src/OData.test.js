@@ -6,7 +6,7 @@ import OData from './OData';
 
 afterEach(fetchMock.restore);
 
-it('fetches all if query is not not', async () => {
+it('fetches all if query is not set', async () => {
   const data = { hello: 'world' };
   fetchMock.once('*', data);
 
