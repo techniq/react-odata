@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Fetch, { renderChildren } from 'react-fetch-component';
+import Fetch from 'react-fetch-component';
 import buildQuery from 'odata-query';
 
 function buildUrl(baseUrl, query) {
@@ -23,5 +23,5 @@ class OData extends Component {
   }
 }
 
-export { buildQuery, renderChildren };
+export { buildQuery };
 export default OData;
