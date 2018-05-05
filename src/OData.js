@@ -12,9 +12,9 @@ class OData extends Component {
 
     return (
       <Fetch
-        url={query}
-        fetchFunction={(query, options, updateOptions) => {
-          const url = buildUrl(baseUrl, query);
+        url={buildUrl(baseUrl, query)}
+        fetchFunction={(url, options, updateOptions) => {
+          url = typeof url === 'string' ? url : buildUrl(baseUrl, url);
           return fetch(url, options, updateOptions);
         }}
         {...rest}
