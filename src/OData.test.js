@@ -130,3 +130,29 @@ it('supports passing query props to "fetch" function', async () => {
   expect(mockChildren.mock.calls[3][0]).toMatchObject({ loading: true, request: {} });
   expect(mockChildren.mock.calls[4][0]).toMatchObject({ loading: false, data: data2, request: {}, response: {} });
 });
+
+it('does not re-fetch if `query` does not change and component is re-rendered', async () => {
+  const url = 'http://localhost?$top=10';
+  const data = { name: 'foo' };
+  fetchMock.get(url, data);
+
+  let savedProps = null;
+
+  const mockChildren = jest.fn(props => {
+    savedProps = props;
+    return <div></div>
+  });
+
+  const { rerender } = render(<OData baseUrl="http://localhost" query={{ top: 10 }}>{mockChildren}</OData>);
+
+  expect(fetchMock.called(url)).toBe(true);
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
+  expect(mockChildren.mock.calls[0][0]).toMatchObject({ loading: null, request: {} });
+  expect(mockChildren.mock.calls[1][0]).toMatchObject({ loading: true, request: {} });
+  expect(mockChildren.mock.calls[2][0]).toMatchObject({ loading: false, data, request: {}, response: {} });
+
+  rerender(<OData baseUrl="http://localhost" query={{ top: 10 }}>{mockChildren}</OData>);
+  expect(mockChildren.mock.calls.length).toBe(4);
+
+  expect(fetchMock.calls(url).length).toBe(1);
+});
