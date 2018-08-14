@@ -58,6 +58,51 @@ it('does not fetch if query is false', async () => {
   expect(fetchMock.called('*')).toBe(false);
 });
 
+it('does not re-fetch if `query` changed to false', async () => {
+  const url = 'http://localhost?$top=10';
+  const data = { name: 'foo' };
+  fetchMock.get(url, data);
+
+  let savedProps = null;
+
+  const mockChildren = jest.fn(props => {
+    savedProps = props;
+    return <div />;
+  });
+
+  const { rerender } = render(
+    <OData baseUrl="http://localhost" query={{ top: 10 }}>
+      {mockChildren}
+    </OData>
+  );
+
+  expect(fetchMock.called(url)).toBe(true);
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
+  expect(mockChildren.mock.calls[0][0]).toMatchObject({
+    loading: null,
+    request: {}
+  });
+  expect(mockChildren.mock.calls[1][0]).toMatchObject({
+    loading: true,
+    request: {}
+  });
+  expect(mockChildren.mock.calls[2][0]).toMatchObject({
+    loading: false,
+    data,
+    request: {},
+    response: {}
+  });
+
+  rerender(
+    <OData baseUrl="http://localhost" query={false}>
+      {mockChildren}
+    </OData>
+  );
+  expect(mockChildren.mock.calls.length).toBe(4);
+
+  expect(fetchMock.calls(url).length).toBe(1);
+});
+
 it('supports manually fetching data when "manual" prop set and "fetch" is called', async () => {
   const url = 'http://localhost';
   const data = { hello: 'world' };

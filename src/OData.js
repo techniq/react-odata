@@ -14,12 +14,15 @@ class OData extends Component {
   state = {
     query: this.props.defaultQuery,
     setQuery: (updater, cb) =>
-    this.setState(prevState => ({
-      query: {
-        ...prevState.query,
-        ...(updater === 'function' ? updater(prevState) : updater)
-      }
-    }), cb)
+      this.setState(
+        prevState => ({
+          query: {
+            ...prevState.query,
+            ...(updater === 'function' ? updater(prevState) : updater)
+          }
+        }),
+        cb
+      )
   };
 
   renderFetch(baseUrl, query, props) {
