@@ -18,7 +18,7 @@ it('fetches all if query is not set', async () => {
   await wait(() => expect(mockHandler.mock.calls.length).toBe(3));
 
   // Initial state
-  expect(mockHandler.mock.calls[0][0]).toMatchObject({ loading: null });
+  expect(mockHandler.mock.calls[0][0]).toMatchObject({ loading: true });
 
   // Loading...
   expect(mockHandler.mock.calls[1][0]).toMatchObject({
@@ -53,7 +53,7 @@ it('does not fetch if query is false', async () => {
   await wait(() => expect(mockHandler.mock.calls.length).toBe(1));
 
   // Initial state
-  expect(mockHandler.mock.calls[0][0]).toMatchObject({ loading: null });
+  expect(mockHandler.mock.calls[0][0]).toMatchObject({ loading: true });
 
   expect(fetchMock.called('*')).toBe(false);
 });
@@ -75,11 +75,11 @@ it('does not re-fetch if `query` changed to false', async () => {
       {mockChildren}
     </OData>
   );
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
 
   expect(fetchMock.called(url)).toBe(true);
-  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
   expect(mockChildren.mock.calls[0][0]).toMatchObject({
-    loading: null,
+    loading: true,
     request: {}
   });
   expect(mockChildren.mock.calls[1][0]).toMatchObject({
@@ -98,7 +98,7 @@ it('does not re-fetch if `query` changed to false', async () => {
       {mockChildren}
     </OData>
   );
-  expect(mockChildren.mock.calls.length).toBe(4);
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(4));
 
   expect(fetchMock.calls(url).length).toBe(1);
 });
@@ -206,11 +206,11 @@ it('supports passing query props to "fetch" function', async () => {
     </OData>
   );
 
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
   expect(fetchMock.called(url1)).toBe(true);
   expect(fetchMock.called(url2)).toBe(false);
-  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
   expect(mockChildren.mock.calls[0][0]).toMatchObject({
-    loading: null,
+    loading: true,
     request: {}
   });
   expect(mockChildren.mock.calls[1][0]).toMatchObject({
@@ -259,10 +259,10 @@ it('does not re-fetch if `query` does not change and component is re-rendered', 
     </OData>
   );
 
-  expect(fetchMock.called(url)).toBe(true);
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
+  expect(fetchMock.called(url)).toBe(true);
   expect(mockChildren.mock.calls[0][0]).toMatchObject({
-    loading: null,
+    loading: true,
     request: {}
   });
   expect(mockChildren.mock.calls[1][0]).toMatchObject({
@@ -304,10 +304,10 @@ it('supports passing `defaultQuery` prop', async () => {
     </OData>
   );
 
-  expect(fetchMock.called(url)).toBe(true);
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3)); // initial, loading, data
+  expect(fetchMock.called(url)).toBe(true);
   expect(mockChildren.mock.calls[0][0]).toMatchObject({
-    loading: null,
+    loading: true,
     request: {}
   });
   expect(mockChildren.mock.calls[1][0]).toMatchObject({
@@ -351,11 +351,11 @@ it('supports updating query via context', async () => {
     </OData>
   );
 
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
   expect(fetchMock.called(url1)).toBe(true);
   expect(fetchMock.called(url2)).toBe(false);
-  await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
   expect(mockChildren.mock.calls[0][0]).toMatchObject({
-    loading: null,
+    loading: true,
     request: {}
   });
   expect(mockChildren.mock.calls[1][0]).toMatchObject({
@@ -371,9 +371,9 @@ it('supports updating query via context', async () => {
 
   Simulate.click(getByText('Click me'));
 
+  await wait(() => expect(mockChildren.mock.calls.length).toBe(6));
   expect(fetchMock.called(url2)).toBe(true);
 
-  await wait(() => expect(mockChildren.mock.calls.length).toBe(6));
   expect(mockChildren.mock.calls[3][0]).toMatchObject({
     loading: false
   });
