@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useFetch } from 'react-fetch-component';
+import Fetch, { useFetch, FetchContext } from 'react-fetch-component';
 import buildQuery from 'odata-query';
 
 import { isFunction } from './utils';
-
-const ODataContext = React.createContext({});
 
 function buildUrl(baseUrl, query) {
   return query !== false && baseUrl + buildQuery(query);
@@ -37,16 +35,19 @@ function useOData({ baseUrl, defaultQuery, query, ...props }) {
   return { ...fetchState, ...state };
 }
 
-const OData = ({ children, ...props }) => (
-  <ODataContext.Provider value={useOData(props)}>
-    {isFunction(children) ? (
-      <ODataContext.Consumer>{children}</ODataContext.Consumer>
-    ) : (
-      children
-    )}
-  </ODataContext.Provider>
-);
-OData.Consumer = ODataContext.Consumer;
+const OData = ({ children, ...props }) => {
+  const state = useOData(props);
+  return (
+    <FetchContext.Provider value={state}>
+      {isFunction(children) ? (
+        <FetchContext.Consumer>{children}</FetchContext.Consumer>
+      ) : (
+        children
+      )}
+    </FetchContext.Provider>
+  );
+};
+OData.Consumer = FetchContext.Consumer;
 
 export { useOData, buildQuery };
 export default OData;
