@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Fetch, { useFetch, FetchContext } from 'react-fetch-component';
-import buildQuery from 'odata-query';
+import {QueryBuilder} from 'odata-query-builder';
 
-import { isFunction } from './utils';
+import { isFunction, isEmpty } from './utils';
 
 function buildUrl(baseUrl, query) {
-  return query !== false && baseUrl + buildQuery(query);
+  return query !== false && baseUrl + (isEmpty(query) ? '' : query.toQuery());
 }
 
 function useOData({ baseUrl, defaultQuery, query, ...props }) {
@@ -17,7 +17,7 @@ function useOData({ baseUrl, defaultQuery, query, ...props }) {
       prevState => ({
         query: {
           ...prevState.query,
-          ...(updater === 'function' ? updater(prevState) : updater)
+          ...(isFunction(updater) ? updater(prevState.query) : updater)
         }
       }),
       cb
@@ -35,7 +35,7 @@ function useOData({ baseUrl, defaultQuery, query, ...props }) {
   return { ...fetchState, ...state };
 }
 
-const OData = ({ children, ...props }) => {
+const POData = ({ children, ...props }) => {
   const state = useOData(props);
   return (
     <FetchContext.Provider value={state}>
@@ -47,7 +47,7 @@ const OData = ({ children, ...props }) => {
     </FetchContext.Provider>
   );
 };
-OData.Consumer = FetchContext.Consumer;
+POData.Consumer = FetchContext.Consumer;
 
-export { useOData, buildQuery };
-export default OData;
+export { useOData, QueryBuilder };
+export default POData;

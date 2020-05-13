@@ -2,7 +2,7 @@ import React from 'react';
 import { render, wait, Simulate } from 'react-testing-library';
 import fetchMock from 'fetch-mock';
 
-import OData from './OData';
+import POData, {QueryBuilder} from './OData';
 
 afterEach(fetchMock.restore);
 
@@ -13,7 +13,7 @@ it('fetches all if query is not set', async () => {
   const mockHandler = jest.fn();
   mockHandler.mockReturnValue(<div />);
 
-  const {} = render(<OData baseUrl="http://localhost">{mockHandler}</OData>);
+  const {} = render(<POData baseUrl="http://localhost">{mockHandler}</POData>);
 
   await wait(() => expect(mockHandler.mock.calls.length).toBe(3));
 
@@ -45,9 +45,9 @@ it('does not fetch if query is false', async () => {
   mockHandler.mockReturnValue(<div />);
 
   const {} = render(
-    <OData baseUrl="http://localhost" query={false}>
+    <POData baseUrl="http://localhost" query={false}>
       {mockHandler}
-    </OData>
+    </POData>
   );
 
   await wait(() => expect(mockHandler.mock.calls.length).toBe(1));
@@ -71,9 +71,9 @@ it('does not re-fetch if `query` changed to false', async () => {
   });
 
   const { rerender } = render(
-    <OData baseUrl="http://localhost" query={{ top: 10 }}>
+    <POData baseUrl="http://localhost" query={new QueryBuilder().top(10)}>
       {mockChildren}
-    </OData>
+    </POData>
   );
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
 
@@ -94,9 +94,9 @@ it('does not re-fetch if `query` changed to false', async () => {
   });
 
   rerender(
-    <OData baseUrl="http://localhost" query={false}>
+    <POData baseUrl="http://localhost" query={false}>
       {mockChildren}
-    </OData>
+    </POData>
   );
   await wait(() => expect(mockChildren.mock.calls.length).toBe(4));
 
@@ -116,9 +116,9 @@ it('supports manually fetching data when "manual" prop set and "fetch" is called
   });
 
   const {} = render(
-    <OData baseUrl="http://localhost" manual>
+    <POData baseUrl="http://localhost" manual>
       {mockChildren}
-    </OData>
+    </POData>
   );
 
   expect(fetchMock.called(url)).toBe(false);
@@ -157,9 +157,9 @@ it('passes original query props if "fetch" function does not provide different',
   });
 
   const {} = render(
-    <OData baseUrl="http://localhost" query={{ top: 10 }} manual>
+    <POData baseUrl="http://localhost" query={new QueryBuilder().top(10)} manual>
       {mockChildren}
-    </OData>
+    </POData>
   );
 
   expect(fetchMock.called(url)).toBe(false);
@@ -201,9 +201,9 @@ it('supports passing query props to "fetch" function', async () => {
   });
 
   const {} = render(
-    <OData baseUrl="http://localhost" query={{ top: 10 }}>
+    <POData baseUrl="http://localhost" query={new QueryBuilder().top(10)}>
       {mockChildren}
-    </OData>
+    </POData>
   );
 
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
@@ -224,7 +224,7 @@ it('supports passing query props to "fetch" function', async () => {
     response: {}
   });
 
-  savedProps.fetch({ top: 10, skip: 10 });
+  savedProps.fetch(new QueryBuilder().top(10).skip(10));
 
   expect(fetchMock.called(url2)).toBe(true);
 
@@ -254,9 +254,9 @@ it('does not re-fetch if `query` does not change and component is re-rendered', 
   });
 
   const { rerender } = render(
-    <OData baseUrl="http://localhost" query={{ top: 10 }}>
+    <POData baseUrl="http://localhost" query={new QueryBuilder().top(10)}>
       {mockChildren}
-    </OData>
+    </POData>
   );
 
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
@@ -277,9 +277,9 @@ it('does not re-fetch if `query` does not change and component is re-rendered', 
   });
 
   rerender(
-    <OData baseUrl="http://localhost" query={{ top: 10 }}>
+    <POData baseUrl="http://localhost" query={new QueryBuilder().top(10)}>
       {mockChildren}
-    </OData>
+    </POData>
   );
   expect(mockChildren.mock.calls.length).toBe(4);
 
@@ -299,9 +299,9 @@ it('supports passing `defaultQuery` prop', async () => {
   });
 
   const {} = render(
-    <OData baseUrl="http://localhost" defaultQuery={{ top: 10 }}>
+    <POData baseUrl="http://localhost" defaultQuery={new QueryBuilder().top(10)}>
       {mockChildren}
-    </OData>
+    </POData>
   );
 
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3)); // initial, loading, data
@@ -336,19 +336,19 @@ it('supports updating query via context', async () => {
     savedProps = props;
     return (
       <div>
-        <OData.Consumer>
+        <POData.Consumer>
           {({ setQuery }) => (
-            <button onClick={() => setQuery({ skip: 10 })}>Click me</button>
+              <button onClick={() => setQuery((defaultQuery) => defaultQuery.skip(10))}>Click me</button>
           )}
-        </OData.Consumer>
+        </POData.Consumer>
       </div>
     );
   });
 
   const { getByText } = render(
-    <OData baseUrl="http://localhost" query={{ top: 10 }}>
+    <POData baseUrl="http://localhost" defaultQuery={new QueryBuilder().top(10)}>
       {mockChildren}
-    </OData>
+    </POData>
   );
 
   await wait(() => expect(mockChildren.mock.calls.length).toBe(3));
